@@ -1,0 +1,86 @@
+"use client"
+
+import { useState } from "react"
+import Modal from "../UI/Modal"
+import { Button } from "../UI"
+
+const AddFileModal = ({ isOpen, onClose, onAdd }) => {
+  const [isNdmTransmission, setIsNdmTransmission] = useState(true)
+  const [sourceJobName, setSourceJobName] = useState("CA7TRIG.FSFP.C$FSF.")
+  const [datasetName, setDatasetName] = useState("CA7TRIG.FSFP.C$FSF.")
+
+  const handleAdd = () => {
+    const fileData = {
+      isNdmTransmission,
+      sourceJobName,
+      datasetName,
+    }
+    onAdd(fileData)
+    onClose()
+  }
+
+  const handleClose = () => {
+    onClose()
+  }
+
+  return (
+    <Modal isOpen={isOpen} onClose={onClose} title="Add File">
+      <div className="p-6">
+        {/* NDM Transmission Option */}
+        <div className="mb-6">
+          <label className="flex items-center gap-3 cursor-pointer">
+            <input
+              type="radio"
+              name="transmission"
+              checked={isNdmTransmission}
+              onChange={() => setIsNdmTransmission(true)}
+              className="w-4 h-4 text-blue-600 focus:ring-blue-500"
+            />
+            <span className="text-sm font-medium text-gray-700">
+              File transmitted through NDM transmission?
+            </span>
+          </label>
+        </div>
+
+        {/* Source Job Input */}
+        <div className="mb-6">
+          <div className="relative">
+            <input
+              type="text"
+              className="w-full px-3 py-2 pr-10 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              placeholder="Enter source job or process name"
+              value={sourceJobName}
+              onChange={(e) => setSourceJobName(e.target.value)}
+            />
+            <span className="absolute right-3 top-2.5 text-yellow-500">⚠️</span>
+          </div>
+        </div>
+
+        {/* Dataset Name */}
+        <div className="mb-6">
+          <label className="block mb-2 text-sm font-medium text-gray-700">
+            Dataset Name:
+          </label>
+          <input
+            type="text"
+            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            value={datasetName}
+            onChange={(e) => setDatasetName(e.target.value)}
+          />
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex justify-center gap-3">
+          <Button onClick={handleAdd} variant="primary" className="min-w-[100px]">
+            Add
+          </Button>
+          <Button onClick={handleClose} variant="secondary" className="min-w-[100px]">
+            Close
+          </Button>
+        </div>
+      </div>
+    </Modal>
+  )
+}
+
+export default AddFileModal

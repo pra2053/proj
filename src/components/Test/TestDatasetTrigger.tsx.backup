@@ -1,0 +1,43 @@
+import React, { useState } from 'react'
+import DatasetTriggerModal from '../Forms/DatasetTrigger/DatasetTriggerModal'
+
+const TestDatasetTrigger: React.FC = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [results, setResults] = useState<any[]>([])
+
+  const handleAdd = (data: any) => {
+    console.log('Data received:', data)
+    setResults([...results, data])
+    setIsModalOpen(false)
+  }
+
+  return (
+    <div className="p-8">
+      <h1 className="text-2xl font-bold mb-4">Test Dataset Trigger Modal</h1>
+      
+      <button
+        onClick={() => setIsModalOpen(true)}
+        className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+      >
+        Open Dataset Trigger Modal
+      </button>
+
+      <div className="mt-8">
+        <h2 className="text-lg font-semibold mb-2">Results:</h2>
+        {results.map((result, index) => (
+          <div key={index} className="p-4 border rounded mb-2 bg-gray-50">
+            <pre>{JSON.stringify(result, null, 2)}</pre>
+          </div>
+        ))}
+      </div>
+
+      <DatasetTriggerModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onAdd={handleAdd}
+      />
+    </div>
+  )
+}
+
+export default TestDatasetTrigger
